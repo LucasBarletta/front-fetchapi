@@ -1,0 +1,38 @@
+.Input{
+    display: flex;
+    flex-direction: column;
+    padding: 10px 25px 10px 70px;
+    label {
+        margin-bottom: 10px;
+    }
+    input {
+        border: none;
+        width: 200px;
+        height: 30px;
+        border: 1px solid black;
+        border-radius: 10px;
+        padding: 0 10px;
+        color: black;
+        outline: none;
+        margin-bottom: 30px;
+        &::placeholder {
+            color: black;            
+        }
+        
+
+    }
+}
+button{
+    width: 70px;
+    height: 70px;
+    border-radius: 100%;
+    margin-left: 150px;
+    border: none;
+    background: #000000;
+    color: #ffffff;
+    cursor: pointer;
+    outline: none;
+    &:hover{
+        background-color: rgba(0, 0, 0, 0.233);
+    }
+}
