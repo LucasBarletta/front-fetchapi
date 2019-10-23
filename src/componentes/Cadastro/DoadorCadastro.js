@@ -5,16 +5,90 @@ import Input from "../Input";
 const DoadorCadastro = () => {
     const [nome, setNome] = useState("");
     const [idade, setIdade] = useState ("");
-    const [local, setLocal] = useState ("");
+    const [localizacao, setLocalizacao] = useState ("");
     const [cpf, setCpf] = useState("");
     const [email, setEmail] = useState ("");
-    const [confirmEmail, setConfirmEmail] = useState ("");
     const [senha, setSenha] = useState ("");
+    const [count, setCount] = useState(0);
+    const [mensagem , setMensagem] = useState("");
+
+    
+    
+    
+        const resposta = (texto) =>{
+            setMensagem(texto)
+            setTimeout(() =>{
+              setMensagem("")
+            }, 2000)
+          }
+    
+        const handleSubmit = e =>{
+            e.preventDefault();
+    
+            console.log("Opa")
+    
+            // fetch('http://localhost:8000/api/doador/',
+            //   {
+            //     headers: {
+            //       'Content-Type': 'application/json'
+            //     }
+            //   }
+            // ).then(response => {
+            //     return response.json()
+            // }).then(response => {
+            //     alert(response)
+            // })
+    
+          
+            if(email === email){
+              const novoDoador = {
+                nome: nome,
+                idade: idade,
+                cpf: cpf,
+                localizacao: localizacao,
+                email:email,
+                senha: senha
+              }
+              fetch('http://localhost:8000/api/doador/',
+                {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(novoDoador)
+                }
+              ).then(response => {
+                  return response.json()
+              }).then(response => {
+                if(response.id) {
+                  alert("criado com sucesso")
+                }else{
+                  alert("Deu ruim")
+                }
+              })
+    
+    
+    
+              localStorage.setItem(`Dados${count}`, JSON.stringify(novoDoador));
+              setCount(count + 1);
+              setNome("");
+              setIdade("");
+              setCpf("");
+              setLocalizacao("");
+              setEmail("");
+              setSenha("");
+              resposta("Cadastro realizado com sucesso")
+            }else{
+              resposta("Os emails não correspondem");
+              
+            }
+        
+            }
 
     return (
     <div className="DoadorCadastro">
         <h1>Faça o seu Cadastro!</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
             <Input
             value={nome}
             type="text"
@@ -30,11 +104,11 @@ const DoadorCadastro = () => {
             atualizarState={setIdade}
             />            
             <Input
-            value={local}
+            value={localizacao}
             type="text"
             label="Local"
             placeholder="Local"
-            atualizarState={setLocal}
+            atualizarState={setLocalizacao}
             />            
             <Input
             value={cpf}
@@ -49,14 +123,7 @@ const DoadorCadastro = () => {
             label="E-mail"
             placeholder="E-mail"
             atualizarState={setEmail}
-            />            
-            <Input
-            value={confirmEmail}
-            type="text"
-            label="Confirmação de Email"
-            placeholder="Confirmação de E-mail"
-            atualizarState={setConfirmEmail}
-            />            
+            />                     
             <Input
             value={senha}
             type="password"
